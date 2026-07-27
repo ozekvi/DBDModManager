@@ -384,6 +384,143 @@ namespace DbdModManager
 
         private void SearchTxt_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e) => FilterMods();
 
+        private static readonly string[] SupportedModArchiveExtensions = { ".zip", ".rar", ".mmpackage" };
+
+        private void ModsArea_DragEnter(object sender, DragEventArgs e)
+        {
+            bool valid = HasValidDropData(e);
+            DropOverlay.Visibility = valid ? Visibility.Visible : Visibility.Collapsed;
+            e.Effects = valid ? DragDropEffects.Copy : DragDropEffects.None;
+            e.Handled = true;
+        }
+
+        private void ModsArea_DragOver(object sender, DragEventArgs e)
+        {
+            e.Effects = HasValidDropData(e) ? DragDropEffects.Copy : DragDropEffects.None;
+            e.Handled = true;
+        }
+
+        private void ModsArea_DragLeave(object sender, DragEventArgs e)
+        {
+            var pos = e.GetPosition(ModsAreaGrid);
+            if (pos.X < 0 || pos.Y < 0 || pos.X > ModsAreaGrid.ActualWidth || pos.Y > ModsAreaGrid.ActualHeight)
+            {
+                DropOverlay.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private static bool HasValidDropData(DragEventArgs e)
+        {
+            if (!e.Data.GetDataPresent(DataFormats.FileDrop)) return false;
+            if (e.Data.GetData(DataFormats.FileDrop) is not string[] paths || paths.Length == 0) return false;
+            return paths.Any(IsValidModSource);
+        }
+
+        private static bool IsValidModSource(string path)
+        {
+            if (Directory.Exists(path))
+            {
+                var enumOptions = new EnumerationOptions { IgnoreInaccessible = true, RecurseSubdirectories = true };
+                return Directory.EnumerateFiles(path, "*.pak", enumOptions).Any();
+            }
+            if (File.Exists(path))
+            {
+                string ext = System.IO.Path.GetExtension(path).ToLowerInvariant();
+                return SupportedModArchiveExtensions.Contains(ext);
+            }
+            return false;
+        }
+
+        private void ModsArea_Drop(object sender, DragEventArgs e)
+        {
+            DropOverlay.Visibility = Visibility.Collapsed;
+            e.Handled = true;
+
+            if (!e.Data.GetDataPresent(DataFormats.FileDrop)) return;
+            if (e.Data.GetData(DataFormats.FileDrop) is not string[] paths) return;
+
+            string repo = RepoTxt.Text;
+            if (string.IsNullOrWhiteSpace(repo) || !Directory.Exists(repo))
+            {
+                Toasts.Show("Укажите папку репозитория модов перед добавлением", ToastKind.Warning);
+                return;
+            }
+
+            int imported = 0;
+            int skipped = 0;
+
+            foreach (var path in paths)
+            {
+                if (!IsValidModSource(path)) { skipped++; continue; }
+
+                try
+                {
+                    string name = System.IO.Path.GetFileName(path.TrimEnd(System.IO.Path.DirectorySeparatorChar));
+                    bool isDirectory = Directory.Exists(path);
+
+                    string fullRepo = System.IO.Path.GetFullPath(repo).TrimEnd(System.IO.Path.DirectorySeparatorChar);
+                    string sourceParent = System.IO.Path.GetFullPath(System.IO.Path.GetDirectoryName(path) ?? "").TrimEnd(System.IO.Path.DirectorySeparatorChar);
+                    if (string.Equals(fullRepo, sourceParent, StringComparison.OrdinalIgnoreCase))
+                    {
+                        skipped++;
+                        continue;
+                    }
+
+                    string target = GetUniqueTargetPath(repo, name, isDirectory);
+                    if (isDirectory) CopyDirectory(path, target);
+                    else File.Copy(path, target);
+                    imported++;
+                }
+                catch (Exception ex)
+                {
+                    skipped++;
+                    Toasts.Show($"Не удалось добавить '{System.IO.Path.GetFileName(path)}': {ex.Message}", ToastKind.Error);
+                }
+            }
+
+            RefreshModList();
+
+            if (imported > 0)
+            {
+                string msg = skipped > 0
+                    ? $"Добавлено модов: {imported} (пропущено: {skipped})"
+                    : $"Добавлено модов: {imported}";
+                Toasts.Show(msg, ToastKind.Success);
+            }
+            else if (skipped > 0)
+            {
+                Toasts.Show("Ни один из перетащенных элементов не распознан как мод", ToastKind.Warning);
+            }
+        }
+
+        private static string GetUniqueTargetPath(string repoDir, string name, bool isDirectory)
+        {
+            string baseName = isDirectory ? name : System.IO.Path.GetFileNameWithoutExtension(name);
+            string ext = isDirectory ? "" : System.IO.Path.GetExtension(name);
+
+            string candidate = System.IO.Path.Combine(repoDir, name);
+            int counter = 1;
+            while (isDirectory ? Directory.Exists(candidate) : File.Exists(candidate))
+            {
+                counter++;
+                candidate = System.IO.Path.Combine(repoDir, $"{baseName} ({counter}){ext}");
+            }
+            return candidate;
+        }
+
+        private static void CopyDirectory(string sourceDir, string targetDir)
+        {
+            Directory.CreateDirectory(targetDir);
+            foreach (var dir in Directory.GetDirectories(sourceDir, "*", SearchOption.AllDirectories))
+            {
+                Directory.CreateDirectory(dir.Replace(sourceDir, targetDir));
+            }
+            foreach (var file in Directory.GetFiles(sourceDir, "*", SearchOption.AllDirectories))
+            {
+                File.Copy(file, file.Replace(sourceDir, targetDir), overwrite: false);
+            }
+        }
+
         private void Card_Click(object sender, MouseButtonEventArgs e)
         {
             if (sender is FrameworkElement fe && fe.DataContext is ModItem mod)

@@ -80,7 +80,12 @@
                         <CheckBox Content="Auto-clean before apply" Style="{StaticResource ModernCheckBoxStyle}" x:Name="CleanChk" IsChecked="True" Padding="0,0,0,0"/>
                     </StackPanel>
                 </Border>
-                <Grid Grid.Column="1" Margin="10,0,0,0">
+                <Grid x:Name="ModsAreaGrid" Grid.Column="1" Margin="10,0,0,0"
+                      AllowDrop="True"
+                      DragEnter="ModsArea_DragEnter"
+                      DragOver="ModsArea_DragOver"
+                      DragLeave="ModsArea_DragLeave"
+                      Drop="ModsArea_Drop">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
@@ -148,6 +153,8 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                     </ScrollViewer>
+                    <controls:DropZoneOverlay x:Name="DropOverlay" Grid.Row="0" Grid.RowSpan="2"
+                                               Visibility="Collapsed" Panel.ZIndex="50"/>
                 </Grid>
             </Grid>
             <Border Grid.Row="2" Background="{DynamicResource SecondaryBrush}" CornerRadius="0,0,20,20" BorderThickness="0,1,0,0" BorderBrush="#1a1a1a">
