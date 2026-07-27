@@ -160,10 +160,6 @@ namespace DbdModManager
                     foreach (var mod in _allMods) {
                         mod.IsSelected = preset.SelectedModNames.Contains(mod.Name);
                     }
-                    for (int i = 0; i < _mods.Count; i++) {
-                        var m = _mods[i];
-                        _mods[i] = null; _mods[i] = m;
-                    }
                 }
             } catch { }
         }
@@ -312,9 +308,7 @@ namespace DbdModManager
             System.Windows.Application.Current.Resources["StrongGlowEffect"] = new System.Windows.Media.Effects.DropShadowEffect { Color = glow, BlurRadius = 25, ShadowDepth = 0, Opacity = 0.6 };
 
             if (_mods != null) {
-                var items = _mods.ToList();
-                _mods.Clear();
-                foreach (var m in items) _mods.Add(m);
+                foreach (var m in _mods) m.RefreshThemeBrushes();
             }
         }
 
@@ -394,8 +388,6 @@ namespace DbdModManager
             if (sender is FrameworkElement fe && fe.DataContext is ModItem mod)
             {
                 mod.IsSelected = !mod.IsSelected;
-                int idx = _mods.IndexOf(mod);
-                _mods[idx] = null; _mods[idx] = mod;
             }
         }
 
@@ -423,23 +415,13 @@ namespace DbdModManager
         private void EnableAllMods_Click(object sender, RoutedEventArgs e)
         {
             if (_mods == null) return;
-            var items = _mods.ToList();
-            _mods.Clear();
-            foreach (var mod in items) {
-                mod.IsSelected = true;
-                _mods.Add(mod);
-            }
+            foreach (var mod in _mods) mod.IsSelected = true;
         }
 
         private void DisableAllMods_Click(object sender, RoutedEventArgs e)
         {
             if (_mods == null) return;
-            var items = _mods.ToList();
-            _mods.Clear();
-            foreach (var mod in items) {
-                mod.IsSelected = false;
-                _mods.Add(mod);
-            }
+            foreach (var mod in _mods) mod.IsSelected = false;
         }
 
         private void Clean_Click(object sender, RoutedEventArgs e)
