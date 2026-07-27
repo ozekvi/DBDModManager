@@ -4,6 +4,11 @@
              xmlns:local="clr-namespace:DbdModManager"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
+        <ResourceDictionary>
+        <ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary Source="Styles/Icons.xaml"/>
+        </ResourceDictionary.MergedDictionaries>
+
         <Color x:Key="BackgroundColor">#0a0a0a</Color>
         <Color x:Key="SecondaryColor">#121212</Color>
         <Color x:Key="AccentColor">#8A2BE2</Color>
@@ -125,6 +130,27 @@
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="border" Property="Background" Value="{DynamicResource AccentBrush}"/>
                                 <Setter TargetName="border" Property="Effect" Value="{DynamicResource StrongGlowEffect}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SecondaryActionButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource MutedTextBrush}"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" CornerRadius="21" Background="{TemplateBinding Background}" BorderThickness="1" BorderBrush="#333">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -340,5 +366,6 @@
             </Setter>
         </Style>
 
+    </ResourceDictionary>
     </Application.Resources>
 </Application>

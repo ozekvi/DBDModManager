@@ -19,17 +19,19 @@
                 <RowDefinition Height="70"/>  
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0" Margin="0,35,0,0" VerticalAlignment="Top" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown" Background="Transparent">
-                <TextBlock Text="Mod Manager" Foreground="{DynamicResource TextBrush}" FontSize="42" FontWeight="ExtraBold" HorizontalAlignment="Center" MouseLeftButtonDown="TitleText_MouseLeftButtonDown" Background="Transparent">
-                    <TextBlock.Effect>
-                        <DropShadowEffect BlurRadius="20" Color="{DynamicResource GlowColor}" ShadowDepth="0" Opacity="0.6"/>
-                    </TextBlock.Effect>
-                </TextBlock>
-                <TextBlock Text="Makes it easier to manage your mods" Foreground="{DynamicResource MutedTextBrush}" FontSize="14" HorizontalAlignment="Center" Margin="0,5,0,0" Opacity="0.8"/>
+                <TextBlock Text="Mod Manager" Foreground="{DynamicResource TextBrush}" FontSize="28" FontWeight="Bold" HorizontalAlignment="Center" MouseLeftButtonDown="TitleText_MouseLeftButtonDown" Background="Transparent"/>
+                <TextBlock Text="Makes it easier to manage your mods" Foreground="{DynamicResource MutedTextBrush}" FontSize="12" HorizontalAlignment="Center" Margin="0,4,0,0" Opacity="0.8"/>
             </StackPanel>
             <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,20,25,0">
-                <Button Content="-" x:Name="MinBtn" Style="{StaticResource IconButtonStyle}" Click="MinimizeButton_Click" Margin="0,0,12,0"/>
-                <Button Content="▢" x:Name="MaxBtn" Style="{StaticResource IconButtonStyle}" Click="MaximizeButton_Click" Margin="0,0,12,0"/>
-                <Button Content="✕" x:Name="CloseBtn" Style="{StaticResource IconButtonStyle}" Click="CloseButton_Click" Background="#2a0000" BorderBrush="#500"/>
+                <Button x:Name="MinBtn" Style="{StaticResource IconButtonStyle}" Click="MinimizeButton_Click" Margin="0,0,12,0" ToolTip="Minimize">
+                    <Path Data="{StaticResource Icon.Minus}" Style="{StaticResource IconPathStyle}"/>
+                </Button>
+                <Button x:Name="MaxBtn" Style="{StaticResource IconButtonStyle}" Click="MaximizeButton_Click" Margin="0,0,12,0" ToolTip="Maximize">
+                    <Path Data="{StaticResource Icon.Square}" Style="{StaticResource IconPathStyle}"/>
+                </Button>
+                <Button x:Name="CloseBtn" Style="{StaticResource IconButtonStyle}" Click="CloseButton_Click" Background="#2a0000" BorderBrush="#500" ToolTip="Close">
+                    <Path Data="{StaticResource Icon.Close}" Style="{StaticResource IconPathStyle}"/>
+                </Button>
             </StackPanel>
             <Grid Grid.Row="1" Margin="25,0,25,15">
                 <Grid.ColumnDefinitions>
@@ -41,26 +43,34 @@
                         <TextBlock Text="DIRECTORIES" Foreground="{DynamicResource AccentBrush}" FontWeight="Bold" FontSize="11" Margin="0,0,0,20"/>
                         <TextBlock Text="STEAM PAKS DIRECTORY" Foreground="{StaticResource MutedTextBrush}" FontSize="10" FontWeight="Bold" Margin="0,0,0,6"/>
                         <DockPanel Margin="0,0,0,15">
-                            <Button DockPanel.Dock="Right" Content="📁" Style="{StaticResource IconButtonStyle}" Width="32" Height="32" Margin="8,0,0,0" Click="BrowseSteam_Click"/>
+                            <Button DockPanel.Dock="Right" Style="{StaticResource IconButtonStyle}" Width="32" Height="32" Margin="8,0,0,0" Click="BrowseSteam_Click" ToolTip="Browse">
+                                <Path Data="{StaticResource Icon.Folder}" Style="{StaticResource IconPathStyle}" Width="14" Height="14"/>
+                            </Button>
                             <TextBox x:Name="SteamPathTxt" Style="{StaticResource ModernTextBoxStyle}" Height="32" FontSize="11"/>
                         </DockPanel>
                         <TextBlock Text="EPIC GAMES PAKS DIRECTORY" Foreground="{StaticResource MutedTextBrush}" FontSize="10" FontWeight="Bold" Margin="0,0,0,6"/>
                         <DockPanel Margin="0,0,0,15">
-                            <Button DockPanel.Dock="Right" Content="📁" Style="{StaticResource IconButtonStyle}" Width="32" Height="32" Margin="8,0,0,0" Click="BrowseEpic_Click"/>
+                            <Button DockPanel.Dock="Right" Style="{StaticResource IconButtonStyle}" Width="32" Height="32" Margin="8,0,0,0" Click="BrowseEpic_Click" ToolTip="Browse">
+                                <Path Data="{StaticResource Icon.Folder}" Style="{StaticResource IconPathStyle}" Width="14" Height="14"/>
+                            </Button>
                             <TextBox x:Name="EpicPathTxt" Style="{StaticResource ModernTextBoxStyle}" Height="32" FontSize="11"/>
                         </DockPanel>
                         <TextBlock Text="XBOX / MS STORE PAKS DIRECTORY" Foreground="{StaticResource MutedTextBrush}" FontSize="10" FontWeight="Bold" Margin="0,0,0,6"/>
                         <DockPanel Margin="0,0,0,15">
-                            <Button DockPanel.Dock="Right" Content="📁" Style="{StaticResource IconButtonStyle}" Width="32" Height="32" Margin="8,0,0,0" Click="BrowseXbox_Click"/>
+                            <Button DockPanel.Dock="Right" Style="{StaticResource IconButtonStyle}" Width="32" Height="32" Margin="8,0,0,0" Click="BrowseXbox_Click" ToolTip="Browse">
+                                <Path Data="{StaticResource Icon.Folder}" Style="{StaticResource IconPathStyle}" Width="14" Height="14"/>
+                            </Button>
                             <TextBox x:Name="XboxPathTxt" Style="{StaticResource ModernTextBoxStyle}" Height="32" FontSize="11"/>
                         </DockPanel>
                         <Separator Background="#222" Margin="0,10,0,20"/>
                         <TextBlock Text="MODS DIRECTORY" Foreground="{StaticResource MutedTextBrush}" FontSize="10" FontWeight="Bold" Margin="0,0,0,6"/>
                         <DockPanel Margin="0,0,0,20">
-                            <Button DockPanel.Dock="Right" Content="📁" Style="{StaticResource IconButtonStyle}" Width="32" Height="32" Margin="8,0,0,0" Click="BrowseRepo_Click"/>
+                            <Button DockPanel.Dock="Right" Style="{StaticResource IconButtonStyle}" Width="32" Height="32" Margin="8,0,0,0" Click="BrowseRepo_Click" ToolTip="Browse">
+                                <Path Data="{StaticResource Icon.Folder}" Style="{StaticResource IconPathStyle}" Width="14" Height="14"/>
+                            </Button>
                             <TextBox x:Name="RepoTxt" Style="{StaticResource ModernTextBoxStyle}" Height="32" FontSize="11"/>
                         </DockPanel>
-                        <TextBlock Text="PLATFORM" Foreground="{DynamicResource AccentBrush}" FontWeight="Bold" FontSize="11" Margin="0,0,0,10" Effect="{DynamicResource PurpleGlowEffect}"/>
+                        <TextBlock Text="PLATFORM" Foreground="{DynamicResource AccentBrush}" FontWeight="Bold" FontSize="11" Margin="0,0,0,10"/>
                         <UniformGrid Columns="3" Margin="0,0,0,15">
                             <RadioButton Content="Steam" IsChecked="True" Style="{StaticResource ModernRadioButtonStyle}" x:Name="SteamRb"/>
                             <RadioButton Content="Epic" Style="{StaticResource ModernRadioButtonStyle}" x:Name="EpicRb"/>
@@ -88,16 +98,28 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBox Grid.Column="0" x:Name="SearchTxt" Style="{StaticResource ModernTextBoxStyle}" Height="40" Tag="Search mod packs..." TextChanged="SearchTxt_TextChanged" Padding="45,0,10,0"/>
-                                <TextBlock Grid.Column="0" Text="🔍" Foreground="{StaticResource MutedTextBrush}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="18,0,0,0" IsHitTestVisible="False" FontSize="18" Opacity="0.5"/>
-                                <Button Grid.Column="1" Content="🔄" Style="{StaticResource IconButtonStyle}" Height="40" Width="40" Margin="8,0,0,0" Click="RefreshModList_Click" ToolTip="Refresh Mods" FontSize="16"/>
-                                <Button Grid.Column="2" Content="✓" Style="{StaticResource IconButtonStyle}" Height="40" Width="40" Margin="8,0,0,0" Click="EnableAllMods_Click" ToolTip="Enable All Mods" FontSize="18" FontWeight="Bold"/>
-                                <Button Grid.Column="3" Content="✕" Style="{StaticResource IconButtonStyle}" Height="40" Width="40" Margin="8,0,0,0" Click="DisableAllMods_Click" ToolTip="Disable All Mods" FontSize="18" FontWeight="Bold"/>
+                                <Path Grid.Column="0" Data="{StaticResource Icon.Search}" Style="{StaticResource IconPathSmallStyle}" HorizontalAlignment="Left" Margin="16,0,0,0" IsHitTestVisible="False"/>
+                                <Button x:Name="RefreshBtn" Grid.Column="1" Style="{StaticResource IconButtonStyle}" Height="40" Width="40" Margin="8,0,0,0" Click="RefreshModList_Click" ToolTip="Refresh Mods">
+                                    <Path Data="{StaticResource Icon.Refresh}" Style="{StaticResource IconPathStyle}"/>
+                                </Button>
+                                <Button Grid.Column="2" Style="{StaticResource IconButtonStyle}" Height="40" Width="40" Margin="8,0,0,0" Click="EnableAllMods_Click" ToolTip="Enable All Mods">
+                                    <Path Data="{StaticResource Icon.Check}" Style="{StaticResource IconPathStyle}"/>
+                                </Button>
+                                <Button Grid.Column="3" Style="{StaticResource IconButtonStyle}" Height="40" Width="40" Margin="8,0,0,0" Click="DisableAllMods_Click" ToolTip="Disable All Mods">
+                                    <Path Data="{StaticResource Icon.Close}" Style="{StaticResource IconPathStyle}"/>
+                                </Button>
                             </Grid>
                             <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="15,0,0,0">
                                 <ComboBox x:Name="PresetCombo" Width="150" Height="40" Style="{StaticResource ModernComboBoxStyle}" SelectionChanged="PresetCombo_SelectionChanged"/>
-                                <Button Content="+" Style="{StaticResource IconButtonStyle}" Margin="8,0" Click="AddPreset_Click" ToolTip="New Preset"/>
-                                <Button Content="💾" Style="{StaticResource IconButtonStyle}" Margin="0,0,8,0" Click="SavePreset_Click" ToolTip="Save Preset"/>
-                                <Button Content="🗑" Style="{StaticResource IconButtonStyle}" Click="DeletePreset_Click" ToolTip="Delete Preset"/>
+                                <Button Style="{StaticResource IconButtonStyle}" Margin="8,0" Click="AddPreset_Click" ToolTip="New Preset">
+                                    <Path Data="{StaticResource Icon.Plus}" Style="{StaticResource IconPathStyle}"/>
+                                </Button>
+                                <Button Style="{StaticResource IconButtonStyle}" Margin="0,0,8,0" Click="SavePreset_Click" ToolTip="Save Preset">
+                                    <Path Data="{StaticResource Icon.Save}" Style="{StaticResource IconPathStyle}"/>
+                                </Button>
+                                <Button Style="{StaticResource IconButtonStyle}" Click="DeletePreset_Click" ToolTip="Delete Preset">
+                                    <Path Data="{StaticResource Icon.Trash}" Style="{StaticResource IconPathStyle}"/>
+                                </Button>
                             </StackPanel>
                         </Grid>
                     </Border>
@@ -118,11 +140,7 @@
                                                     <TextBlock Text="{Binding StatusText}" Foreground="{DynamicResource TextBrush}" FontSize="9" FontWeight="ExtraBold"/>
                                                 </Border>
                                             </StackPanel>
-                                            <Ellipse Fill="{Binding StatusBrush}" Width="8" Height="8" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,15,15,0">
-                                                <Ellipse.Effect>
-                                                    <DropShadowEffect BlurRadius="8" Color="{Binding StatusColor}" ShadowDepth="0" Opacity="0.8"/>
-                                                </Ellipse.Effect>
-                                            </Ellipse>
+                                            <Ellipse Fill="{Binding StatusBrush}" Width="8" Height="8" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,15,15,0"/>
                                         </Grid>
                                     </Border>
                                 </DataTemplate>
@@ -142,8 +160,8 @@
                         </ComboBox>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-                        <Button Content="CLEAN MODS" Width="200" Height="42" Style="{StaticResource ActionButtonStyle}" Click="Clean_Click" Background="#1d1d1d" Margin="0,0,15,0"/>
-                        <Button Content="APPLY MODS" Width="200" Height="42" Style="{StaticResource ActionButtonStyle}" Click="Apply_Click"/>
+                        <Button x:Name="CleanBtn" Content="CLEAN MODS" Width="180" Height="42" Style="{StaticResource SecondaryActionButtonStyle}" Click="Clean_Click" Margin="0,0,15,0"/>
+                        <Button x:Name="ApplyBtn" Content="APPLY MODS" Width="200" Height="42" Style="{StaticResource ActionButtonStyle}" Click="Apply_Click"/>
                     </StackPanel>
                 </Grid>
             </Border>
