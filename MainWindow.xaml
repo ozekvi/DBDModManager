@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:DbdModManager.Controls"
         mc:Ignorable="d" 
         Title="DBD Mod Manager" 
         Height="760" Width="1100"
@@ -173,6 +174,7 @@
                     <RectangleGeometry Rect="0,0,300,500" RadiusX="20" RadiusY="20"/>
                 </Image.Clip>
             </Image>
+            <controls:ToastHost x:Name="Toasts" Grid.RowSpan="3" Panel.ZIndex="200"/>
         </Grid>
     </Border>
 </Window>

@@ -1,0 +1,9 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <SolidColorBrush x:Key="Toast.Success" Color="#3ecf7a"/>
+    <SolidColorBrush x:Key="Toast.Error" Color="#e5484d"/>
+    <SolidColorBrush x:Key="Toast.Warning" Color="#f5a623"/>
+    <SolidColorBrush x:Key="Toast.Info" Color="#4a9eff"/>
+
+</ResourceDictionary>

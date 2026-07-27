@@ -1,0 +1,90 @@
+<UserControl x:Class="DbdModManager.Controls.ToastHost"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:DbdModManager.Controls"
+             Focusable="False" IsHitTestVisible="True" Background="Transparent">
+    <UserControl.Resources>
+        <local:ToastKindToBrushConverter x:Key="ToastKindToBrushConverter"/>
+        <local:ToastKindToIconConverter x:Key="ToastKindToIconConverter"/>
+    </UserControl.Resources>
+
+    <ItemsControl x:Name="ToastItemsControl" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,24,24" Focusable="False">
+        <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+                <StackPanel Orientation="Vertical"/>
+            </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemTemplate>
+            <DataTemplate DataType="{x:Type local:ToastMessage}">
+                <Border x:Name="ToastRoot" Background="#1a1a1a" BorderThickness="1" BorderBrush="#2a2a2a"
+                        CornerRadius="10" Padding="14,12" Margin="0,8,0,0" MinWidth="260" MaxWidth="360"
+                        Opacity="0" HorizontalAlignment="Right">
+                    <Border.RenderTransform>
+                        <TranslateTransform x:Name="ToastTransform" X="40"/>
+                    </Border.RenderTransform>
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="16" Color="Black" ShadowDepth="4" Opacity="0.35"/>
+                    </Border.Effect>
+                    <Border.Triggers>
+                        <EventTrigger RoutedEvent="Border.Loaded">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.25"/>
+                                    <DoubleAnimation Storyboard.TargetName="ToastTransform" Storyboard.TargetProperty="X" To="0" Duration="0:0:0.25"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Border.Triggers>
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsClosing}" Value="True">
+                                    <DataTrigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.2"/>
+                                                <DoubleAnimation Storyboard.TargetName="ToastTransform" Storyboard.TargetProperty="X" To="40" Duration="0:0:0.2"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Path Grid.Column="0" Width="18" Height="18" VerticalAlignment="Top" Margin="0,1,10,0"
+                              Data="{Binding Kind, Converter={StaticResource ToastKindToIconConverter}}"
+                              Stroke="{Binding Kind, Converter={StaticResource ToastKindToBrushConverter}}"
+                              Fill="Transparent" StrokeThickness="1.8" StrokeStartLineCap="Round"
+                              StrokeEndLineCap="Round" StrokeLineJoin="Round" Stretch="Uniform"/>
+                        <TextBlock Grid.Column="1" Text="{Binding Message}" Foreground="White" FontSize="13"
+                                   TextWrapping="Wrap" VerticalAlignment="Center"/>
+                        <Button Grid.Column="2" Width="20" Height="20" VerticalAlignment="Top" Margin="8,0,0,0"
+                                Background="Transparent" BorderThickness="0" Cursor="Hand" Padding="0"
+                                Click="CloseToast_Click">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}" CornerRadius="10">
+                                        <Path Data="{StaticResource Icon.Close}" Width="10" Height="10"
+                                              Stroke="#888" StrokeThickness="1.8" StrokeStartLineCap="Round"
+                                              StrokeEndLineCap="Round" Stretch="Uniform"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#2a2a2a"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </Grid>
+                </Border>
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+    </ItemsControl>
+</UserControl>

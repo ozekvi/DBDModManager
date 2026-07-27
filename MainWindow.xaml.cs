@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Controls;
 using System.IO.Compression;
+using DbdModManager.Controls;
 
 namespace DbdModManager
 {
@@ -210,7 +211,7 @@ namespace DbdModManager
                 if (preset != null) {
                     preset.SelectedModNames = _allMods.Where(m => m.IsSelected).Select(m => m.Name).ToList();
                     File.WriteAllText(_presetsPath, JsonSerializer.Serialize(all));
-                    System.Windows.MessageBox.Show($"Saved preset '{name}' successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                    Toasts.Show($"Preset '{name}' saved", ToastKind.Success);
                 }
             }
         }
@@ -406,7 +407,7 @@ namespace DbdModManager
                         }
                         RefreshModList();
                     } catch (Exception ex) {
-                        System.Windows.MessageBox.Show($"Failed to delete mod: {ex.Message}", "Delete Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        Toasts.Show($"Failed to delete mod: {ex.Message}", ToastKind.Error);
                     }
                 }
             }
@@ -428,9 +429,9 @@ namespace DbdModManager
         {
             try {
                 int count = RunCleaner();
-                System.Windows.MessageBox.Show($"Cleanup complete! Removed {count} mod-related files.", "Mod Manager", MessageBoxButton.OK, MessageBoxImage.Information);
+                Toasts.Show($"Cleanup complete! Removed {count} mod-related files.", ToastKind.Success);
             } catch (Exception ex) {
-                System.Windows.MessageBox.Show($"Cleanup failed: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                Toasts.Show($"Cleanup failed: {ex.Message}", ToastKind.Error);
             }
         }
 
@@ -475,7 +476,7 @@ namespace DbdModManager
             else if (XboxRb.IsChecked == true) { activePath = XboxPathTxt.Text; suffix = "-WinGDK"; }
 
             if (string.IsNullOrEmpty(activePath) || !Directory.Exists(activePath)) {
-                System.Windows.MessageBox.Show("Selected path is invalid!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                Toasts.Show("Selected path is invalid!", ToastKind.Warning);
                 return;
             }
 
@@ -576,9 +577,9 @@ namespace DbdModManager
                         }
                     }
                 }
-                System.Windows.MessageBox.Show($"Applied {appliedCount} mod chunks successfully!", "Mod Manager", MessageBoxButton.OK, MessageBoxImage.Information);
+                Toasts.Show($"Applied {appliedCount} mod chunks successfully!", ToastKind.Success);
             } catch (Exception ex) {
-                System.Windows.MessageBox.Show($"Application failed: {ex.Message}", "Fatal Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                Toasts.Show($"Application failed: {ex.Message}", ToastKind.Error);
             }
         }
     }
