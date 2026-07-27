@@ -20,7 +20,7 @@
                         CornerRadius="10" Padding="14,12" Margin="0,8,0,0" MinWidth="260" MaxWidth="360"
                         Opacity="0" HorizontalAlignment="Right">
                     <Border.RenderTransform>
-                        <TranslateTransform x:Name="ToastTransform" X="40"/>
+                        <TranslateTransform X="40"/>
                     </Border.RenderTransform>
                     <Border.Effect>
                         <DropShadowEffect BlurRadius="16" Color="Black" ShadowDepth="4" Opacity="0.35"/>
@@ -30,7 +30,7 @@
                             <BeginStoryboard>
                                 <Storyboard>
                                     <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.25"/>
-                                    <DoubleAnimation Storyboard.TargetName="ToastTransform" Storyboard.TargetProperty="X" To="0" Duration="0:0:0.25"/>
+                                    <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" To="0" Duration="0:0:0.25"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
@@ -43,7 +43,7 @@
                                         <BeginStoryboard>
                                             <Storyboard>
                                                 <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.2"/>
-                                                <DoubleAnimation Storyboard.TargetName="ToastTransform" Storyboard.TargetProperty="X" To="40" Duration="0:0:0.2"/>
+                                                <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" To="40" Duration="0:0:0.2"/>
                                             </Storyboard>
                                         </BeginStoryboard>
                                     </DataTrigger.EnterActions>
