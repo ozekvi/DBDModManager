@@ -15,6 +15,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Using Remove="System.Drawing" />
+    <Using Remove="System.Windows.Forms" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="app_icon.png" />
     <Resource Include="zoe.png" />
     <None Update="app_icon.ico">
